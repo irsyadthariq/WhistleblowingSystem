@@ -13,9 +13,20 @@ class TLaporanHeader extends Model
     protected $table = 't_laporan_header'; 
 
     protected $fillable = [
-        'disclosure_id',
+        'disclosure_status',
         'm_ruang_lingkup_id',
         'lampiran_file',
+        'nama_pelapor',
+        'departemen',
+        'alamat_email',
+        'nomor_kontak',
+        'informasi_lain',
+        'koneksi',
+        'password',
+        'status',
+        'bobot_status',
+        'keterangan',
+                   
     ];
 
     protected $dates = ['deleted_at']; 

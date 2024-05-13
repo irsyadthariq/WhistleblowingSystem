@@ -18,6 +18,19 @@ class MappingPertanyaanController extends Controller
         }
     }
 
+    public function detail($ruang_lingkup_id)
+    {
+        try {
+            $data = MmappingPertanyaan::select("m_ruang_lingkup_id", "nama_pertanyaan")
+            ->join("m_pertanyaan", "m_pertanyaan.id", "m_mapping_pertanyaan.m_pertanyaan_id")
+            ->where("m_ruang_lingkup_id", $ruang_lingkup_id)
+            ->get();
+
+            return response()->json(['message' => 'Data berhasil didapatkan', 'data' => $data], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Data gagal didapatkan', 'error' => $e->getMessage()], 500);
+        }
+    }
     public function store(Request $request)
     {
         try {

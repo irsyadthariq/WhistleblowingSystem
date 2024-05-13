@@ -9,7 +9,7 @@ class RuangLingkupController extends Controller
     public function index(){
         try{
            
-            $data = MruangLingkup::select("nama_ruang_lingkup")->get();
+            $data = MruangLingkup::select("id", "nama_ruang_lingkup", "deskripsi")->get();
 
             return response()->json(['message'=>"Berhasil didapat", "data"=>$data, "error"=>[]], 200);
         }

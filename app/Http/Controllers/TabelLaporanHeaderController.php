@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TlaporanHeader;
+use Illuminate\Support\Facades\Validator;
 
 class TabelLaporanHeaderController extends Controller
 {
@@ -17,16 +18,41 @@ class TabelLaporanHeaderController extends Controller
         }
     }
 
+    public function detail($laporan_id)
+    {
+        try {
+            $data = TlaporanHeader::select("disclosure_status", "id", "nama_pelapor", "departemen", "alamat_email", "nomor_kontak", "status")
+            ->where("id", $laporan_id)
+            ->get();
+
+            return response()->json(['message' => 'Data berhasil didapatkan', 'data' => $data], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Data gagal didapatkan', 'error' => $e->getMessage()], 500);
+        }
+    }
     public function store(Request $request)
     {
         try {
-            $validatedData = $request->validate([
-                'disclosure_id' => 'required|integer',
-                'm_ruang_lingkup_id' => 'nullable|integer',
-                'lampiran_file' => 'required|string|max:255', 
+            $validator = Validator::make($request->all(), [
+                'disclosure_status' => 'required|integer',
+                'lampiran_file' => 'required|file|mimes:pdf,doc,docx|max:2048', 
+                'nama_pelapor' => 'required|string|max:255',
+                'departemen' => 'required|string|max:255',
+                'alamat_email' => 'required|string|max:255',
+                'nomor_kontak' => 'required|string|max:255',
+                'informasi_lain' => 'required|string|max:255',
+                'koneksi' => 'required|string|max:255',
+                'password' => 'required|string|max:255',
+                'status' => 'required|integer',
+                'bobot_status' => 'required|integer',
+                'keterangan' => 'required|string|max:255',
             ]);
 
-            $data = TlaporanHeader::create($validatedData);
+            if ($validator->fails()) {
+                return response()->json(['status' => 'error', 'message' => $validator->errors()], 422);
+            }
+
+            $data = TlaporanHeader::create($request->all());
 
             return response()->json(['status' => 'success', 'message' => 'Data berhasil dibuat', 'data' => $data], 201);
         } catch (\Exception $e) {
@@ -39,13 +65,26 @@ class TabelLaporanHeaderController extends Controller
         try {
             $data = TlaporanHeader::findOrFail($id);
 
-            $validatedData = $request->validate([
-                'disclosure_id' => 'required|integer',
-                'm_ruang_lingkup_id' => 'nullable|integer',
-                'lampiran_file' => 'required|string|max:255', 
+            $validator = Validator::make($request->all(), [
+                'disclosure_status' => 'required|integer',
+                'lampiran_file' => 'nullable|file|mimes:pdf,doc,docx|max:2048', 
+                'nama_pelapor' => 'required|string|max:255',
+                'departemen' => 'required|string|max:255',
+                'alamat_email' => 'required|string|max:255',
+                'nomor_kontak' => 'required|string|max:255',
+                'informasi_lain' => 'required|string|max:255',
+                'koneksi' => 'required|string|max:255',
+                'password' => 'required|string|max:255',
+                'status' => 'required|integer',
+                'bobot_status' => 'required|integer',
+                'keterangan' => 'required|string|max:255',
             ]);
 
-            $data->update($validatedData);
+            if ($validator->fails()) {
+                return response()->json(['status' => 'error', 'message' => $validator->errors()], 422);
+            }
+
+            $data->update($request->all());
 
             return response()->json(['status' => 'success', 'message' => 'Data berhasil diperbarui', 'data' => $data], 200);
         } catch (\Exception $e) {
