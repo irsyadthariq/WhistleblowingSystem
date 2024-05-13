@@ -50,7 +50,7 @@ Route::post('/laporan-header/del', [TabelLaporanHeaderController::class, 'delete
 
 // Laporan Detail
 Route::get('/laporan-detail', [TabelLaporanDetailController::class, 'index']);
-Route::get('/laporan-detail/{t_laporan_detail_id}', [TabelLaporanDetailController::class, 'detail']);
+Route::get('/laporan-detail/{t_laporan_header_id}', [TabelLaporanDetailController::class, 'detail']);
 Route::post('/laporan-detail/store', [TabelLaporanDetailController::class, 'store']);
 Route::post('/laporan-detail/del', [TabelLaporanDetailController::class, 'delete']);
 
