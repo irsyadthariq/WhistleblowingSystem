@@ -44,8 +44,8 @@ Route::post('/mapping-pertanyaan/del', [MappingPertanyaanController::class, 'del
 
 // Laporan Header
 Route::get('/laporan-header', [TabelLaporanHeaderController::class, 'index']);
-Route::get('/laporan-header/{laporan_id}', [TabelLaporanHeaderController::class, 'detail']);
 Route::post('/laporan-header/store', [TabelLaporanHeaderController::class, 'store']);
+Route::post('/laporan-header/{laporan_id}', [TabelLaporanHeaderController::class, 'detail']);
 Route::post('/laporan-header/del', [TabelLaporanHeaderController::class, 'delete']);
 
 // Laporan Detail
